@@ -53,6 +53,11 @@ double x[] = { 10, 13, 15, 30, 20, 18, 14, 10 };
 }
 
 
+- (UIColor*)graphView:(iGraphView*)view barColorForLine:(NSInteger)lineIndex {
+    return [UIColor greenColor];
+}
+
+
 - (double_t)graphView:(iGraphView*)view valueForLine:(NSInteger)graphIndex XAxisPoint:(NSInteger)pointIndex {
     return x[pointIndex];
 }

@@ -22,6 +22,7 @@
 		B4D24E4312958D9100DD2EDA /* iGraphMark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D24E4212958D9100DD2EDA /* iGraphMark.m */; };
 		B4D24E5212958E3E00DD2EDA /* iGraphLine.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D24E5112958E3E00DD2EDA /* iGraphLine.m */; };
 		B4D24E5712958E7200DD2EDA /* iGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D24E5612958E7200DD2EDA /* iGraph.m */; };
+		B4EC418E129EC54F00C6FD20 /* iGraphBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B4EC418D129EC54F00C6FD20 /* iGraphBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,8 @@
 		B4D24E5112958E3E00DD2EDA /* iGraphLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iGraphLine.m; sourceTree = "<group>"; };
 		B4D24E5512958E7200DD2EDA /* iGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iGraph.h; sourceTree = "<group>"; };
 		B4D24E5612958E7200DD2EDA /* iGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iGraph.m; sourceTree = "<group>"; };
+		B4EC418C129EC54F00C6FD20 /* iGraphBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iGraphBar.h; sourceTree = "<group>"; };
+		B4EC418D129EC54F00C6FD20 /* iGraphBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iGraphBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,8 @@
 				B4D24E4212958D9100DD2EDA /* iGraphMark.m */,
 				B4D24E5012958E3E00DD2EDA /* iGraphLine.h */,
 				B4D24E5112958E3E00DD2EDA /* iGraphLine.m */,
+				B4EC418C129EC54F00C6FD20 /* iGraphBar.h */,
+				B4EC418D129EC54F00C6FD20 /* iGraphBar.m */,
 				B49A0C211296A8D90036AC17 /* iGraphDataSource.h */,
 				B49A0C221296A8D90036AC17 /* iGraphDataSource.m */,
 			);
@@ -213,6 +218,7 @@
 				B4D24E5712958E7200DD2EDA /* iGraph.m in Sources */,
 				B49A0C231296A8D90036AC17 /* iGraphDataSource.m in Sources */,
 				B4A19D7D129A7A94004CE793 /* iGraphConfig.m in Sources */,
+				B4EC418E129EC54F00C6FD20 /* iGraphBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

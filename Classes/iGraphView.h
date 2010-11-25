@@ -42,6 +42,8 @@
 
 - (NSUInteger)graphViewNumberOfGraphsInGraphView:(iGraphView*)view;
 
+- (UIColor*)graphView:(iGraphView*)view barColorForLine:(NSInteger)lineIndex;
+
 - (UIView*)graphView:(iGraphView*)view keyViewForLine:(NSInteger)lineIndex;
 
 @end

@@ -15,6 +15,7 @@
     CGFloat yAxisMargin;
     CGFloat keyMargin;
     CGFloat rightMargin;
+    CGFloat barMargin;
     CGFloat lineWidth;
 }
 @property (nonatomic, retain) NSArray *gridDash;
@@ -28,6 +29,7 @@
 @property (nonatomic, assign) CGFloat yAxisMargin;
 @property (nonatomic, assign) CGFloat keyMargin;
 @property (nonatomic, assign) CGFloat rightMargin;
+@property (nonatomic, assign) CGFloat barMargin;
 @property (nonatomic, assign) CGFloat lineWidth;
 
 @end

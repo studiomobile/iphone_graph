@@ -17,6 +17,7 @@
 @synthesize yAxisMargin;
 @synthesize keyMargin;
 @synthesize rightMargin;
+@synthesize barMargin;
 @synthesize lineWidth;
 
 

@@ -11,6 +11,7 @@
 @synthesize gridBounds;
 @synthesize xAxis;
 @synthesize yAxis;
+@synthesize bars;
 @synthesize lines;
 
 
@@ -65,6 +66,7 @@
     [config release];
     [xAxis release];
     [yAxis release];
+    [bars release];
     [lines release];
     [super dealloc];
 }
@@ -91,6 +93,10 @@
 - (void)precalculateWithDataSource:(iGraphDataSource*)dataSource {
     [xAxis precalculateWithDataSource:dataSource];
     [yAxis precalculateWithDataSource:dataSource];
+    
+    for (iGraphBar *bar in bars) {
+        [bar precalculateWithGraph:self dataSource:dataSource];
+    }
 
     for (iGraphLine *line in lines) {
         [line precalculateWithGraph:self dataSource:dataSource];
@@ -110,12 +116,19 @@
     UIFont *font = config.keyFont;
 	CGContextSelectFont(ctx, [[font fontName] cStringUsingEncoding:NSUTF8StringEncoding], [font pointSize], kCGEncodingMacRoman);
     CGFloat textHeight = [font pointSize];
+
+    CGContextSaveGState(ctx);
+    CGContextClipToRect(ctx, gridBounds);
+    
+    for (iGraphBar *bar in bars) {
+        [bar drawInContext:ctx];
+    }
     
     for (iGraphLine *line in lines) {
         [line drawInContext:ctx];
 
         CGContextSaveGState(ctx);
-        
+
         CGContextSetFillColorWithColor(ctx, [line.color CGColor]);
         CGRect iconRect = CGRectMake(keyLeft, keyCenter - iconHeight/2 - 2, iconWidth, iconHeight);
         CGContextFillRect(ctx, iconRect);
@@ -136,6 +149,8 @@
 
         CGContextRestoreGState(ctx);
     }
+
+    CGContextRestoreGState(ctx);
 }
 
 @end
