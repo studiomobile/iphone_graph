@@ -25,6 +25,7 @@
     config.yAxisMargin = 25;
     config.keyMargin = 20;
     config.rightMargin = 20;
+    config.lineWidth = 1;
 }
 
 
@@ -58,7 +59,7 @@
         iGraphLine *line = [[[iGraphLine alloc] initWithIndex:l] autorelease];
         line.title = [dataSource graphView:self titleForLine:l];
         line.color = [dataSource graphView:self colorForLine:l];
-        line.width = 1;
+        line.width = config.lineWidth;
         [lines addObject:line];
     }
     graph.lines = lines;
