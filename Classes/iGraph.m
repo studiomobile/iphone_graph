@@ -104,31 +104,19 @@
 }
 
 
-- (void)drawInContext:(CGContextRef)ctx {
-    [xAxis drawInContext:ctx];
-    [yAxis drawInContext:ctx];
+- (void)drawKeyinContext:(CGContextRef)ctx {
+    CGContextSaveGState(ctx);
+
+    UIFont *font = config.keyFont;
+	CGContextSelectFont(ctx, [[font fontName] cStringUsingEncoding:NSUTF8StringEncoding], [font pointSize], kCGEncodingMacRoman);
+    CGFloat textHeight = [font pointSize];
     
     CGFloat keyLeft = CGRectGetMinX(keyBounds) + 5;
     CGFloat keyCenter = CGRectGetMidY(keyBounds);
     CGFloat iconWidth = 20;
     CGFloat iconHeight = 10;
-
-    UIFont *font = config.keyFont;
-	CGContextSelectFont(ctx, [[font fontName] cStringUsingEncoding:NSUTF8StringEncoding], [font pointSize], kCGEncodingMacRoman);
-    CGFloat textHeight = [font pointSize];
-
-    CGContextSaveGState(ctx);
-    CGContextClipToRect(ctx, gridBounds);
-    
-    for (iGraphBar *bar in bars) {
-        [bar drawInContext:ctx];
-    }
     
     for (iGraphLine *line in lines) {
-        [line drawInContext:ctx];
-
-        CGContextSaveGState(ctx);
-
         CGContextSetFillColorWithColor(ctx, [line.color CGColor]);
         CGRect iconRect = CGRectMake(keyLeft, keyCenter - iconHeight/2 - 2, iconWidth, iconHeight);
         CGContextFillRect(ctx, iconRect);
@@ -146,8 +134,26 @@
         CGContextSetFillColorWithColor(ctx, [config.keyTextColor CGColor]);
         CGContextShowTextAtPoint(ctx, keyLeft, ceilf(keyCenter - textHeight/2), str, length);
         keyLeft += textWidth + 10;
+    }
 
-        CGContextRestoreGState(ctx);
+    CGContextRestoreGState(ctx);
+}
+
+
+- (void)drawInContext:(CGContextRef)ctx {
+    [xAxis drawInContext:ctx];
+    [yAxis drawInContext:ctx];
+    [self drawKeyinContext:ctx];
+
+    CGContextSaveGState(ctx);
+    CGContextClipToRect(ctx, gridBounds);
+
+    for (iGraphBar *bar in bars) {
+        [bar drawInContext:ctx];
+    }
+
+    for (iGraphLine *line in lines) {
+        [line drawInContext:ctx];
     }
 
     CGContextRestoreGState(ctx);
