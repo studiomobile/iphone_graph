@@ -19,6 +19,7 @@ typedef enum {
     CGRect gridBounds;
     
     NSArray *marks;
+    NSUInteger skipMarks;
     
     NSArray *dash;
     
@@ -38,6 +39,7 @@ typedef enum {
 @property (nonatomic, assign) CGRect bounds;
 @property (nonatomic, assign) CGRect gridBounds;
 @property (nonatomic, retain) NSArray *marks;
+@property (nonatomic, assign) NSUInteger skipMarks;
 @property (nonatomic, retain) NSArray *dash;
 @property (nonatomic, assign) CGFloat gridLineWidth;
 @property (nonatomic, assign) NSUInteger marksLineSize;

@@ -19,6 +19,8 @@
 @synthesize rightMargin;
 @synthesize barMargin;
 @synthesize lineWidth;
+@synthesize xAxisSkipTicks;
+@synthesize yAxisSkipTicks;
 
 
 - (void)dealloc {

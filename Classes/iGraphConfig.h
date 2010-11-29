@@ -17,6 +17,8 @@
     CGFloat rightMargin;
     CGFloat barMargin;
     CGFloat lineWidth;
+    NSUInteger xAxisSkipTicks;
+    NSUInteger yAxisSkipTicks;
 }
 @property (nonatomic, retain) NSArray *gridDash;
 @property (nonatomic, retain) UIFont *axisFont;
@@ -31,5 +33,7 @@
 @property (nonatomic, assign) CGFloat rightMargin;
 @property (nonatomic, assign) CGFloat barMargin;
 @property (nonatomic, assign) CGFloat lineWidth;
+@property (nonatomic, assign) NSUInteger xAxisSkipTicks;
+@property (nonatomic, assign) NSUInteger yAxisSkipTicks;
 
 @end

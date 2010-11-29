@@ -51,11 +51,13 @@
     xAxis = [[iGraphAxis alloc] initWithOrientation:iGraphAxisOrientationX];
     xAxis.bounds = xBounds;
     xAxis.gridBounds = gridBounds;
+    xAxis.skipMarks = config.xAxisSkipTicks;
     [self configureAxis:xAxis];
 
     yAxis = [[iGraphAxis alloc] initWithOrientation:iGraphAxisOrientationY];
     yAxis.bounds = yBounds;
     yAxis.gridBounds = gridBounds;
+    yAxis.skipMarks = config.yAxisSkipTicks;
     [self configureAxis:yAxis];
     
     return self;

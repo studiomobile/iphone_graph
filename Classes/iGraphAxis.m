@@ -11,6 +11,7 @@
 @synthesize bounds;
 @synthesize gridBounds;
 @synthesize marks;
+@synthesize skipMarks;
 @synthesize dash;
 @synthesize gridLineWidth;
 @synthesize marksLineSize;
@@ -54,6 +55,7 @@
     CGFloat yMin = CGRectGetMinY(gridBounds);
     CGFloat yMax = CGRectGetMaxY(gridBounds);
     CGFloat yOffset = gridBounds.size.height / (marksCount - 1);
+    NSUInteger skip = 0;
     
     NSMutableArray *gridMarks = [NSMutableArray arrayWithCapacity:marksCount];
     for (int i = 0; i < marksCount; ++i) {
@@ -78,12 +80,18 @@
             }   break;
         }
         
-        CGPathMoveToPoint(gridPath, nil, markPoint.x, markPoint.y);
-        CGPathAddLineToPoint(gridPath, nil, gridOffset.x, gridOffset.y);
+        if (!skip) {
+            CGPathMoveToPoint(gridPath, nil, markPoint.x, markPoint.y);
+            CGPathAddLineToPoint(gridPath, nil, gridOffset.x, gridOffset.y);
 
-        CGPathMoveToPoint(marksPath, nil, markPoint.x, markPoint.y);
-        CGPathAddLineToPoint(marksPath, nil, markOffset.x, markOffset.y);
-        
+            CGPathMoveToPoint(marksPath, nil, markPoint.x, markPoint.y);
+            CGPathAddLineToPoint(marksPath, nil, markOffset.x, markOffset.y);
+
+            skip = skipMarks;
+        } else {
+            --skip;
+        }
+
         mark.point = markPoint;
         [gridMarks addObject:mark];
     }
@@ -117,30 +125,38 @@
 
 	CGContextSelectFont(ctx, [[textFont fontName] cStringUsingEncoding:NSUTF8StringEncoding], [textFont pointSize], kCGEncodingMacRoman);
     CGContextSetFillColorWithColor(ctx, [textColor CGColor]);
-    
+
     CGFloat textHeight = [textFont pointSize];
-    
+
+    NSUInteger skip = 0;
+
     for (iGraphMark *mark in marks) {
         const char *str = [mark.title cStringUsingEncoding:NSUTF8StringEncoding];
         size_t length = strlen(str);
 
-        CGContextSetTextDrawingMode(ctx, kCGTextInvisible);
-        CGContextSetTextPosition(ctx, 0, 0);
-        CGContextShowText(ctx, str, length);
-        CGFloat textWidth = CGContextGetTextPosition(ctx).x;
+        if (!skip) {
+            CGContextSetTextDrawingMode(ctx, kCGTextInvisible);
+            CGContextSetTextPosition(ctx, 0, 0);
+            CGContextShowText(ctx, str, length);
+            CGFloat textWidth = CGContextGetTextPosition(ctx).x;
 
-        CGContextSetTextDrawingMode(ctx, kCGTextFill);
+            CGContextSetTextDrawingMode(ctx, kCGTextFill);
 
-        switch (orientation) {
-            case iGraphAxisOrientationX:
-                CGContextSetTextPosition(ctx, mark.point.x - ceilf(textWidth/2), mark.point.y - textHeight - marksLineSize);
-                break;
-            case iGraphAxisOrientationY:
-                CGContextSetTextPosition(ctx, mark.point.x - textWidth - marksLineSize*2, mark.point.y - ceilf(textHeight/2));
-                break;
+            switch (orientation) {
+                case iGraphAxisOrientationX:
+                    CGContextSetTextPosition(ctx, mark.point.x - ceilf(textWidth/2), mark.point.y - textHeight - marksLineSize);
+                    break;
+                case iGraphAxisOrientationY:
+                    CGContextSetTextPosition(ctx, mark.point.x - textWidth - marksLineSize*2, mark.point.y - ceilf(textHeight/2));
+                    break;
+            }
+
+            CGContextShowText(ctx, str, length);
+
+            skip = skipMarks;
+        } else {
+            --skip;
         }
-        
-        CGContextShowText(ctx, str, length);
     }
     
     CGContextRestoreGState(ctx);
