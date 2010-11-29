@@ -23,6 +23,7 @@
 		B4D24E5212958E3E00DD2EDA /* iGraphLine.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D24E5112958E3E00DD2EDA /* iGraphLine.m */; };
 		B4D24E5712958E7200DD2EDA /* iGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D24E5612958E7200DD2EDA /* iGraph.m */; };
 		B4EC418E129EC54F00C6FD20 /* iGraphBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B4EC418D129EC54F00C6FD20 /* iGraphBar.m */; };
+		B4FCC2F912A3CF0100F00BCF /* ICQ_Flower_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B4FCC2F812A3CF0100F00BCF /* ICQ_Flower_Icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		B4D24E5612958E7200DD2EDA /* iGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iGraph.m; sourceTree = "<group>"; };
 		B4EC418C129EC54F00C6FD20 /* iGraphBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iGraphBar.h; sourceTree = "<group>"; };
 		B4EC418D129EC54F00C6FD20 /* iGraphBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iGraphBar.m; sourceTree = "<group>"; };
+		B4FCC2F812A3CF0100F00BCF /* ICQ_Flower_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ICQ_Flower_Icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4FCC2F812A3CF0100F00BCF /* ICQ_Flower_Icon.png */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* iPhoneGraph-Info.plist */,
 			);
@@ -198,6 +201,7 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* iPhoneGraphViewController.xib in Resources */,
+				B4FCC2F912A3CF0100F00BCF /* ICQ_Flower_Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +265,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -275,7 +279,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

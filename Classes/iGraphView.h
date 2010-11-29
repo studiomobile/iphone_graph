@@ -14,6 +14,7 @@
     IBOutlet id<iGraphViewDelegate> delegate;
     iGraph *graph;
     iGraphConfig *config;
+    NSArray *pointViews;
 }
 @property (nonatomic, assign) id<iGraphViewDataSource> dataSource;
 @property (nonatomic, assign) id<iGraphViewDelegate> delegate;
@@ -29,22 +30,23 @@
 - (NSUInteger)graphViewNumberOfXAxisPoints:(iGraphView*)view;
 - (NSUInteger)graphViewNumberOfYAxisPoints:(iGraphView*)view;
 
-- (NSString*)graphView:(iGraphView*)view titleForXAxisPoint:(NSInteger)pointIndex;
-- (NSString*)graphView:(iGraphView*)view titleForYAxisPoint:(NSInteger)pointIndex;
+- (NSString*)graphView:(iGraphView*)view titleForXAxisPoint:(NSUInteger)pointIndex;
+- (NSString*)graphView:(iGraphView*)view titleForYAxisPoint:(NSUInteger)pointIndex;
 
-- (NSString*)graphView:(iGraphView*)view titleForLine:(NSInteger)lineIndex;
-- (UIColor*)graphView:(iGraphView*)view colorForLine:(NSInteger)lineIndex;
+- (NSString*)graphView:(iGraphView*)view titleForLine:(NSUInteger)lineIndex;
+- (UIColor*)graphView:(iGraphView*)view colorForLine:(NSUInteger)lineIndex;
 
-- (double_t)graphView:(iGraphView*)view valueForLine:(NSInteger)lineIndex XAxisPoint:(NSInteger)pointIndex;
-- (double_t)graphView:(iGraphView*)view valueForYAxisPoint:(NSInteger)pointIndex;
+- (double_t)graphView:(iGraphView*)view valueForLine:(NSUInteger)lineIndex XAxisPoint:(NSUInteger)pointIndex;
+- (double_t)graphView:(iGraphView*)view valueForYAxisPoint:(NSUInteger)pointIndex;
 
 @optional
 
 - (NSUInteger)graphViewNumberOfGraphsInGraphView:(iGraphView*)view;
 
-- (UIColor*)graphView:(iGraphView*)view barColorForLine:(NSInteger)lineIndex;
+- (UIColor*)graphView:(iGraphView*)view barColorForLine:(NSUInteger)lineIndex;
 
-- (UIView*)graphView:(iGraphView*)view keyViewForLine:(NSInteger)lineIndex;
+- (UIView*)graphView:(iGraphView*)view viewForLine:(NSUInteger)lineIndex xAxisPoint:(NSUInteger)pointIndex;
+- (void)graphView:(iGraphView*)view willReleaseView:(UIView*)view;
 
 @end
 
