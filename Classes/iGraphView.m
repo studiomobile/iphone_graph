@@ -51,7 +51,7 @@
 }
 
 
-- (void)reloadData {
+- (void)reloadData:(BOOL)forceLayout {
     [graph autorelease];
     graph = [[iGraph alloc] initWithBounds:self.bounds config:config];
 
@@ -61,7 +61,14 @@
     NSMutableArray *bars =  drawBars ? [NSMutableArray arrayWithCapacity:L] : nil;
     for (NSUInteger l = 0; l < L; ++l) {
         iGraphLine *line = [[[iGraphLine alloc] initWithIndex:l] autorelease];
-        line.title = [dataSource graphView:self titleForLine:l];
+        
+        UILabel *label = [[UILabel new] autorelease];
+        label.text = [dataSource graphView:self titleForLine:l];
+        label.font = config.keyFont;
+        label.textColor = config.keyTextColor;
+        [label sizeToFit];
+
+        line.keyLabel = label;
         line.color = [dataSource graphView:self colorForLine:l];
         line.width = config.lineWidth;
         [lines addObject:line];
@@ -80,17 +87,37 @@
     [graph precalculateWithDataSource:source];
 
     [self setNeedsDisplay];
+    
+    if (forceLayout) {
+        [self setNeedsLayout];
+    }
+}
 
+
+- (void)reloadData {
+    [self reloadData:YES];
+}
+
+
+- (void)setNeedsLayout {
+    [super setNeedsLayout];
+    [self reloadData:NO];
+}
+
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
     BOOL pointViewsReleaseSupported = [dataSource respondsToSelector:@selector(graphView:willReleaseView:)];
-    if (pointViewsReleaseSupported) {
-        for (UIView *v in pointViews) {
+    for (UIView *v in pointViews) {
+        if (pointViewsReleaseSupported) {
             [dataSource graphView:self willReleaseView:v];
-            [v removeFromSuperview];
         }
+        [v removeFromSuperview];
     }
     [pointViews release];
     pointViews = nil;
-
+    
     BOOL pointViewsSupported = [dataSource respondsToSelector:@selector(graphView:viewForLine:xAxisPoint:)];
     if (pointViewsSupported) {
         NSMutableArray *newPointViews = [NSMutableArray array];
@@ -112,9 +139,29 @@
 }
 
 
-- (void)setNeedsLayout {
-    [super setNeedsLayout];
-    [self reloadData];
+
+- (void)drawKeyInContext:(CGContextRef)ctx {
+    CGContextSaveGState(ctx);
+    
+    CGFloat keyLeft = CGRectGetMinX(graph.keyBounds) + 5;
+    CGFloat keyCenter = CGRectGetMidY(graph.keyBounds);
+    CGFloat iconWidth = 20;
+    CGFloat iconHeight = 10;
+    
+    for (iGraphLine *line in graph.lines) {
+        CGContextSetFillColorWithColor(ctx, [line.color CGColor]);
+        CGRect iconRect = CGRectMake(keyLeft, keyCenter - iconHeight/2 - 2, iconWidth, iconHeight);
+        CGContextFillRect(ctx, iconRect);
+        keyLeft += iconRect.size.width + 5;
+        CGRect frame = line.keyLabel.frame;
+        frame.origin.x = keyLeft;
+        frame.origin.y = self.bounds.size.height - keyCenter - ceilf(frame.size.height/2) + 3;
+        line.keyLabel.frame = frame;
+        [self addSubview:line.keyLabel];
+        keyLeft += frame.size.width + 10;
+    }
+    
+    CGContextRestoreGState(ctx);
 }
 
 
@@ -123,6 +170,8 @@
     CGAffineTransform tr = CGContextGetCTM(ctx);
     CGContextScaleCTM(ctx, tr.a < 0 ? -1 : 1, tr.d < 0 ? -1 : 1);
     CGContextTranslateCTM(ctx, tr.a < 0 ? tr.tx/tr.a : 0, tr.d < 0 ? tr.ty/tr.d : 0);
+
+    [self drawKeyInContext:ctx];
     [graph drawInContext:ctx];
 }
 

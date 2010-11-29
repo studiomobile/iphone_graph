@@ -99,53 +99,12 @@
     for (iGraphBar *bar in bars) {
         [bar precalculateWithGraph:self dataSource:dataSource];
     }
-
-    for (iGraphLine *line in lines) {
-        [line precalculateWithGraph:self dataSource:dataSource];
-    }
-}
-
-
-- (void)drawKeyinContext:(CGContextRef)ctx {
-    CGContextSaveGState(ctx);
-
-    UIFont *font = config.keyFont;
-	CGContextSelectFont(ctx, [[font fontName] cStringUsingEncoding:NSUTF8StringEncoding], [font pointSize], kCGEncodingMacRoman);
-    CGFloat textHeight = [font pointSize];
-    
-    CGFloat keyLeft = CGRectGetMinX(keyBounds) + 5;
-    CGFloat keyCenter = CGRectGetMidY(keyBounds);
-    CGFloat iconWidth = 20;
-    CGFloat iconHeight = 10;
-    
-    for (iGraphLine *line in lines) {
-        CGContextSetFillColorWithColor(ctx, [line.color CGColor]);
-        CGRect iconRect = CGRectMake(keyLeft, keyCenter - iconHeight/2 - 2, iconWidth, iconHeight);
-        CGContextFillRect(ctx, iconRect);
-        keyLeft += iconRect.size.width + 5;
-
-        const char *str = [line.title cStringUsingEncoding:NSUTF8StringEncoding];
-        size_t length = strlen(str);
-        
-        CGContextSetTextDrawingMode(ctx, kCGTextInvisible);
-        CGContextSetTextPosition(ctx, 0, 0);
-        CGContextShowText(ctx, str, length);
-        CGFloat textWidth = CGContextGetTextPosition(ctx).x;
-        
-        CGContextSetTextDrawingMode(ctx, kCGTextFill);
-        CGContextSetFillColorWithColor(ctx, [config.keyTextColor CGColor]);
-        CGContextShowTextAtPoint(ctx, keyLeft, ceilf(keyCenter - textHeight/2), str, length);
-        keyLeft += textWidth + 10;
-    }
-
-    CGContextRestoreGState(ctx);
 }
 
 
 - (void)drawInContext:(CGContextRef)ctx {
     [xAxis drawInContext:ctx];
     [yAxis drawInContext:ctx];
-    [self drawKeyinContext:ctx];
 
     CGContextSaveGState(ctx);
     CGContextClipToRect(ctx, gridBounds);

@@ -13,7 +13,8 @@
     NSArray *dash;
 
     UIColor *color;
-    NSString *title;
+
+    UILabel *keyLabel;
     
     CGMutablePathRef path;
 }
@@ -21,7 +22,7 @@
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, retain) NSArray *dash;
 @property (nonatomic, retain) UIColor *color;
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) UILabel *keyLabel;
 
 - (id)initWithIndex:(NSUInteger)index;
 

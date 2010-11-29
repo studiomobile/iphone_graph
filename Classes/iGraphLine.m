@@ -10,7 +10,7 @@
 @synthesize width;
 @synthesize dash;
 @synthesize color;
-@synthesize title;
+@synthesize keyLabel;
 
 
 - (id)initWithIndex:(NSUInteger)_index {
@@ -23,7 +23,7 @@
 - (void)dealloc {
     [dash release];
     [color release];
-    [title release];
+    [keyLabel release];
     CGPathRelease(path);
     [super dealloc];
 }
