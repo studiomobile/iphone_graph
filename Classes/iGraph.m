@@ -99,6 +99,10 @@
     for (iGraphBar *bar in bars) {
         [bar precalculateWithGraph:self dataSource:dataSource];
     }
+    
+    for (iGraphLine *line in lines) {
+        [line precalculateWithGraph:self dataSource:dataSource];
+    }
 }
 
 
