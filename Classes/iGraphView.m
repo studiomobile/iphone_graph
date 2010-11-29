@@ -33,6 +33,7 @@
 - (void)dealloc {
     [graph release];
     [config release];
+    [pointViews release];
     [super dealloc];
 }
 
@@ -87,6 +88,8 @@
             [v removeFromSuperview];
         }
     }
+    [pointViews release];
+    pointViews = nil;
 
     BOOL pointViewsSupported = [dataSource respondsToSelector:@selector(graphView:viewForLine:xAxisPoint:)];
     if (pointViewsSupported) {
@@ -104,6 +107,7 @@
                 }
             }
         }
+        pointViews = [newPointViews copy];
     }
 }
 
