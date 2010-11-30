@@ -35,19 +35,24 @@
 - (void)precalculateWithGraph:(iGraph*)graph dataSource:(iGraphDataSource*)dataSource {
     CGPathRelease(path);
     path = CGPathCreateMutable();
-    CGPoint p0;
     CGFloat baseLine = CGRectGetMinY(graph.gridBounds);
     CGFloat margin = graph.config.barMargin;
-    for (NSUInteger x = 0; x < dataSource.xAxisPoints; ++x) {
-        double value = [dataSource valueForLine:index XAxisPoint:x];
-        CGPoint p = [graph pointForValue:value withIndex:x];
-        if (x > 0) {
-            if (x == 1) {
-                CGPathAddRect(path, nil, [self barForPoint1:p point2:p0 baseLine:baseLine margin:margin]);
-            }
-            CGPathAddRect(path, nil, [self barForPoint1:p0 point2:p baseLine:baseLine margin:margin]);
+    CGPoint p0 = CGPointZero, p1 = CGPointZero;
+    double v0 = NAN, v1 = NAN;
+    for (iGraphMark *mark in graph.xAxis.marks) {
+        v1 = [dataSource valueForLine:index XAxisPoint:mark.index];
+        p1 = [graph pointForValue:v1 withIndex:mark.index];
+        if (!isnan(v0)) {
+            CGRect rect = CGRectMake(p0.x, baseLine, ceilf(p1.x - p0.x - margin)/2, p0.y - baseLine);
+            CGPathAddRect(path, nil, rect);
         }
-        p0 = p;
+        if (!isnan(v1)) {
+            CGFloat width = ceilf(p1.x - p0.x - margin)/2;
+            CGRect rect = CGRectMake(p1.x - width, baseLine, width, p1.y - baseLine);
+            CGPathAddRect(path, nil, rect);
+        }
+        v0 = v1;
+        p0 = p1;
     }
 }
 

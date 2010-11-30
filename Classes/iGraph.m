@@ -76,6 +76,7 @@
 
 - (CGPoint)pointForValue:(double)value withIndex:(NSUInteger)index {
     iGraphMark *x = [xAxis.marks objectAtIndex:index];
+    if (isnan(value)) return x.point;
     iGraphMark *p = nil;
     for (iGraphMark *y in yAxis.marks) {
         if (!p) {
