@@ -123,9 +123,10 @@
         NSMutableArray *newPointViews = [NSMutableArray array];
         for (iGraphMark *mark in graph.xAxis.marks) {
             for (iGraphLine *line in graph.lines) {
+                double value = [dataSource graphView:self valueForLine:line.index XAxisPoint:mark.index];
+                if (isnan(value)) continue;
                 UIView *view = [dataSource graphView:self viewForLine:line.index xAxisPoint:mark.index];
                 if (view) {
-                    double value = [dataSource graphView:self valueForLine:line.index XAxisPoint:mark.index];
                     CGPoint p = [graph pointForValue:value withIndex:mark.index];
                     p.y = self.bounds.size.height - p.y;
                     [self addSubview:view];

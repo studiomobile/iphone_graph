@@ -33,11 +33,17 @@
     CGPathRelease(path);
     path = CGPathCreateMutable();
     CGPoint p0;
-    for (NSUInteger x = 0; x < dataSource.xAxisPoints; ++x) {
-        double value = [dataSource valueForLine:index XAxisPoint:x];
-        CGPoint p = [graph pointForValue:value withIndex:x];
-        if (x == 0) {
+    BOOL start = YES;
+    for (iGraphMark *mark in graph.xAxis.marks) {
+        double value = [dataSource valueForLine:index XAxisPoint:mark.index];
+        if (isnan(value)) {
+            start = YES;
+            continue;
+        }
+        CGPoint p = [graph pointForValue:value withIndex:mark.index];
+        if (start) {
             CGPathMoveToPoint(path, nil, p.x, p.y);
+            start = NO;
         } else {
             CGPathAddQuadCurveToPoint(path, nil, ceilf((p0.x + p.x)/2), p0.y, p.x, p.y);
         }

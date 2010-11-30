@@ -6,7 +6,7 @@
 @implementation iPhoneGraphViewController
 
 double y[] = { 9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99 };
-double x[] = { 10, 13, 15, 30, 20, 18, 14, 10 };
+double x[] = { 10, 13, 15, NAN, 20, 18, 14, 10 };
 
 
 - (void)viewDidLoad {

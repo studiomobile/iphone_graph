@@ -87,6 +87,7 @@
             CGFloat dy = ceilf(p.point.y + (y.point.y - p.point.y) * sy);
             return CGPointMake(x.point.x, dy);
         }
+        p = y;
     }
     return p.point;
 }
