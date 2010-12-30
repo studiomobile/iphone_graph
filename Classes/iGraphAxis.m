@@ -61,6 +61,7 @@
     for (int i = 0; i < marksCount; ++i) {
         iGraphMark *mark = [[[iGraphMark alloc] initWithIndex:i] autorelease];
         CGPoint markPoint, gridOffset, markOffset;
+        NSString *title;
 
         switch (orientation) {
             case iGraphAxisOrientationX: {
@@ -68,14 +69,14 @@
                 markPoint = CGPointMake(x, yMin);
                 gridOffset = CGPointMake(x, yMax);
                 markOffset = CGPointMake(x, yMin - marksLineSize);
-                mark.title = [dataSource titleForXAxisPoint:i];
+                title = [dataSource titleForXAxisPoint:i];
             }   break;
             case iGraphAxisOrientationY: {
                 CGFloat y = ceilf(yMin + yOffset * i);
                 markPoint = CGPointMake(xMin, y);
                 gridOffset = CGPointMake(xMax, y);
                 markOffset = CGPointMake(xMin - marksLineSize, y);
-                mark.title = [dataSource titleForYAxisPoint:i];
+                title = [dataSource titleForYAxisPoint:i];
                 mark.value = [dataSource valueForYAxisPoint:i];
             }   break;
         }
@@ -87,6 +88,11 @@
             CGPathMoveToPoint(marksPath, nil, markPoint.x, markPoint.y);
             CGPathAddLineToPoint(marksPath, nil, markOffset.x, markOffset.y);
 
+            mark.label = [[UILabel new] autorelease];
+            mark.label.text = title;
+            mark.label.font = textFont;
+            mark.label.textColor = textColor;
+
             skip = skipMarks;
         } else {
             --skip;
@@ -95,7 +101,7 @@
         mark.point = markPoint;
         [gridMarks addObject:mark];
     }
-    
+
     [marks autorelease];
     marks = [gridMarks retain];
 }
@@ -123,42 +129,6 @@
     CGContextAddPath(ctx, marksPath);
     CGContextStrokePath(ctx);
 
-	CGContextSelectFont(ctx, [[textFont fontName] cStringUsingEncoding:NSUTF8StringEncoding], [textFont pointSize], kCGEncodingMacRoman);
-    CGContextSetFillColorWithColor(ctx, [textColor CGColor]);
-
-    CGFloat textHeight = [textFont pointSize];
-
-    NSUInteger skip = 0;
-
-    for (iGraphMark *mark in marks) {
-        const char *str = [mark.title cStringUsingEncoding:NSUTF8StringEncoding];
-        size_t length = strlen(str);
-
-        if (!skip) {
-            CGContextSetTextDrawingMode(ctx, kCGTextInvisible);
-            CGContextSetTextPosition(ctx, 0, 0);
-            CGContextShowText(ctx, str, length);
-            CGFloat textWidth = CGContextGetTextPosition(ctx).x;
-
-            CGContextSetTextDrawingMode(ctx, kCGTextFill);
-
-            switch (orientation) {
-                case iGraphAxisOrientationX:
-                    CGContextSetTextPosition(ctx, mark.point.x - ceilf(textWidth/2), mark.point.y - textHeight - marksLineSize);
-                    break;
-                case iGraphAxisOrientationY:
-                    CGContextSetTextPosition(ctx, mark.point.x - textWidth - marksLineSize*2, mark.point.y - ceilf(textHeight/2));
-                    break;
-            }
-
-            CGContextShowText(ctx, str, length);
-
-            skip = skipMarks;
-        } else {
-            --skip;
-        }
-    }
-    
     CGContextRestoreGState(ctx);
 }
 

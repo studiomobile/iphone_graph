@@ -105,9 +105,39 @@
 }
 
 
+- (void)layoutAxisMarks:(iGraphAxis*)axis {
+    for (iGraphMark *mark in axis.marks) {
+        UILabel *label = mark.label;
+        if (!label) continue;
+        [label sizeToFit];
+
+        CGRect frame = label.frame;
+        CGFloat textWidth = frame.size.width;
+        CGFloat textHeight = frame.size.height;
+        CGPoint p;
+
+        switch (axis.orientation) {
+            case iGraphAxisOrientationX:
+                p = CGPointMake(mark.point.x - ceilf(textWidth/2), self.bounds.size.height - mark.point.y + axis.marksLineSize);
+                break;
+            case iGraphAxisOrientationY:
+                p = CGPointMake(mark.point.x - textWidth - axis.marksLineSize*2, self.bounds.size.height - mark.point.y - ceilf(textHeight/2));
+                break;
+        }
+
+        frame.origin = p;
+        label.frame = frame;
+        [self addSubview:label];
+    }
+}
+
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    [self layoutAxisMarks:graph.xAxis];
+    [self layoutAxisMarks:graph.yAxis];
+
     BOOL pointViewsReleaseSupported = [dataSource respondsToSelector:@selector(graphView:willReleaseView:)];
     for (UIView *v in pointViews) {
         if (pointViewsReleaseSupported) {

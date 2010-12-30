@@ -23,6 +23,7 @@
 - (void)dealloc {
     [dash release];
     [color release];
+    [keyLabel removeFromSuperview];
     [keyLabel release];
     CGPathRelease(path);
     [super dealloc];

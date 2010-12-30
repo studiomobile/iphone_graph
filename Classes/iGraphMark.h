@@ -5,13 +5,13 @@
 
 @interface iGraphMark : NSObject {
     NSUInteger index;
-    NSString *title;
+    UILabel *label;
     CGPoint point;
     double value;
 }
 @property (nonatomic, readonly) NSUInteger index;
+@property (nonatomic, retain) UILabel *label;
 @property (nonatomic, assign) CGPoint point;
-@property (nonatomic, retain) NSString *title;
 @property (nonatomic, assign) double value;
 
 - (id)initWithIndex:(NSUInteger)index;

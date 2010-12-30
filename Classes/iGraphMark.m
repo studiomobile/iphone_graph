@@ -6,8 +6,8 @@
 @implementation iGraphMark
 
 @synthesize index;
+@synthesize label;
 @synthesize point;
-@synthesize title;
 @synthesize value;
 
 
@@ -19,7 +19,8 @@
 
 
 - (void)dealloc {
-    [title release];
+    [label removeFromSuperview];
+    [label release];
     [super dealloc];
 }
 
