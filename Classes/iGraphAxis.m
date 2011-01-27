@@ -92,6 +92,7 @@
             mark.label.text = title;
             mark.label.font = textFont;
             mark.label.textColor = textColor;
+            mark.label.backgroundColor = [UIColor clearColor];
 
             skip = skipMarks;
         } else {
